@@ -7,6 +7,11 @@ Project:   ph Mesurement
 https://github.com/Edistechlab/DIY-Heimautomation-Buch/tree/master/Sensoren/Regensensor
 */
 
+
+/*
+ich was eingefügt
+*/
+
 #include <Arduino.h>
 #include <TaskManager.h>
 #include <ESP8266WiFi.h>
@@ -32,6 +37,8 @@ JsonDocument doc;
 unsigned long lastMsg = 0;
 #define MSG_BUFFER_SIZE (50)
 char msg[MSG_BUFFER_SIZE];
+
+unsigned long lastReconnectAttempt = 0;
 
 bool STATE_LED;
 
@@ -144,40 +151,57 @@ void setup()
 
 } /*--------------------------------------------------------------------------*/
 
-void reconnect()
+bool reconnect()
 {
-  // Loop until we're reconnected
-  while (!client.connected())
+  Serial.print("Attempting MQTT connection...");
+  String clientId = "ESP32Client-";
+  clientId += String(random(0xffff), HEX);
+
+  if (client.connect(clientId.c_str()))
   {
-    Serial.print("Attempting MQTT connection...");
-    // Create a random client ID
-    String clientId = "ESP8266Client-";
-    clientId += String(random(0xffff), HEX);
-    // Attempt to connect
-    if (client.connect(clientId.c_str()))
-    {
-      Serial.println("connected");
-      // Once connected, publish an announcement...
-      client.publish("outGarden", "Garden control");
-      // ... and resubscribe
-      client.subscribe("inGarden/#");
-      /*
-      client.subscribed zu allen Nachrichten wie z.B.
-      inPump/Status
-*/
-    }
-    else
-    {
-      Serial.print("failed, rc=");
-      Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
-      delay(5000);
-    }
+    Serial.println("connected");
+    client.publish("outGarden", "Garden control");
+    client.subscribe("inGarden/#");
+    return true;
+  }
+  else
+  {
+    Serial.print("failed, rc=");
+    Serial.print(client.state());
+    return false;
   }
 } /*--------------------------------------------------------------------------*/
 
 void loop()
 {
+
+  static unsigned long previousMillis = millis();
+  // if WiFi is down, try reconnecting
+  if ((WiFi.status() != WL_CONNECTED) && (millis() - previousMillis >= 30000))
+  {
+    Serial.print(millis());
+    Serial.println("Reconnecting to WiFi...");
+    WiFi.disconnect();
+    WiFi.reconnect();
+    previousMillis = millis();
+  }
+
+  if (!client.connected())
+  {
+    unsigned long now = millis();
+    if (now - lastReconnectAttempt > 5000)
+    {
+      lastReconnectAttempt = now;
+      if (reconnect())
+      {
+        lastReconnectAttempt = 0;
+      }
+    }
+  }
+  else
+  {
+    client.loop();
+  }
   Tasks.update();
   static long lastMillis = 0;
   if(lastMillis - millis() >= 1000 )
