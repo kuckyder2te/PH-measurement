@@ -37,6 +37,7 @@ namespace Services
 
     class pH_measurement : public Task::Base
     {
+        char _msg[30];
 
     public:
         pH_measurement(const String &name)
@@ -59,16 +60,36 @@ namespace Services
 
         virtual void update() override
         {
+            static float _ph_min = 100;
+            static float _ph_max = -100;
+
             // // Read the temperature from the sensor
-            Serial.println("Temperature reading:" + String(ph4502c.read_temp()));
-
+            LOGGER_NOTICE_FMT("Temperature reading: %.1f", ph4502c.read_temp());
             // // Read the pH level by average
-            Serial.println("pH Level Reading-new: " + String(ph4502c.read_ph_level())); // P0 ~ A0
+            LOGGER_NOTICE_FMT("pH Level Reading-new: %.1f", ph4502c.read_ph_level()); // P0 ~ A0
+                                                                                      // // Read a single pH level value
+            LOGGER_NOTICE_FMT("pH Level Single Reading: %.1f", ph4502c.read_ph_level_single());
 
-            // // Read a single pH level value
-            Serial.println("pH Level Single Reading: " + String(ph4502c.read_ph_level_single()));
+            float _current_ph = ph4502c.read_temp();
 
-            delay(1000);
+            if (_current_ph < _ph_min)
+            {
+                _ph_min = _current_ph;
+                sprintf(_msg, "{ \"value\":%.1f }", _ph_min);
+                _network->pubMsg("outGarden/ph_min", _msg);
+                LOGGER_NOTICE_FMT("ph min: %.1f", _ph_min);
+            }
+
+            if (_current_ph >= _ph_max)
+            {
+                _ph_max = _current_ph;
+                sprintf(_msg, "{ \"value\":%.1f }", _ph_max);
+                _network->pubMsg("outGarden/ph_max", _msg);
+                LOGGER_NOTICE_FMT("ph max: %.1f", _ph_max);
+            }
+
+            sprintf(_msg, "{ \"value\":%.1f }", _current_ph);
+            _network->pubMsg("outGarden/current_ph", _msg);
 
             // int sensorValue = analogRead(A0);
             // float spannung = sensorValue*(5,0/1023);
