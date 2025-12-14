@@ -19,65 +19,61 @@
 #include "../network.h"
 #include <Wire.h>
 #include <ph4502c_sensor.h>
-// #include "def.h"
+#include "def.h"
 
 extern Network *_network;
 
 namespace Services
 {
 
-/* Pinout: https://cdn.awsli.com.br/969/969921/arq uivos/ph-sensor-ph-4502c.pdf */
-#define PH4502C_TEMPERATURE_PIN 4
-#define PH4502C_PH_PIN A0
-#define PH4502C_PH_TRIGGER_PIN 5
+    // Create an instance of the PH4502C_Sensor
+    PH4502C_Sensor ph4502c(
+        PH4502C_PH_PIN,
+        PH4502C_TEMPERATURE_PIN,
+        PH4502C_CALIBRATION,
+        PH4502C_READING_INTERVAL,
+        PH4502C_READING_COUNT,
+        ADC_RESOLUTION);
 
-#define PH4502C_CALIBRATION 14.8f
-#define PH4502C_READING_INTERVAL 100
-#define PH4502C_READING_COUNT 10
-// NOTE: The ESP32 ADC has a 12-bit resolution (while most arduinos have 10-bit)
-#define ADC_RESOLUTION 1024.0f
-
-// Create an instance of the PH4502C_Sensor
-PH4502C_Sensor ph4502c(
-    PH4502C_PH_PIN,
-    PH4502C_TEMPERATURE_PIN,
-    PH4502C_CALIBRATION,
-    PH4502C_READING_INTERVAL,
-    PH4502C_READING_COUNT,
-    ADC_RESOLUTION);
-
-class pH_measurement : public Task::Base
-{
-
-public:
-    pH_measurement(const String &name)
-        : Task::Base(name)
+    class pH_measurement : public Task::Base
     {
-    }
 
-    virtual void begin() override
-    {
-        Serial.println("Starting PH4502C Sensor...");
-        ph4502c.init();
-    }
+    public:
+        pH_measurement(const String &name)
+            : Task::Base(name)
+        {
+        }
 
-    virtual void update() override
-    {
-        // // Read the temperature from the sensor
-        Serial.println("Temperature reading:" + String(ph4502c.read_temp()));   
+        virtual void begin() override
+        {
+            Serial.println("Starting PH4502C Sensor...");
+        }
 
-        // // Read the pH level by average
-        Serial.println("pH Level Reading-new: " + String(ph4502c.read_ph_level())); //P0 ~ A0
+        pH_measurement *init(const uint8_t DallasPin)
+        {
+            LOGGER_VERBOSE("enter ...");
+            ph4502c.init();
+            LOGGER_VERBOSE("leave ...");
+            return this;
+        }
 
-        // // Read a single pH level value
-        Serial.println("pH Level Single Reading: " + String(ph4502c.read_ph_level_single()));
+        virtual void update() override
+        {
+            // // Read the temperature from the sensor
+            Serial.println("Temperature reading:" + String(ph4502c.read_temp()));
 
-        delay(1000);
+            // // Read the pH level by average
+            Serial.println("pH Level Reading-new: " + String(ph4502c.read_ph_level())); // P0 ~ A0
 
-        // int sensorValue = analogRead(A0);
-        // float spannung = sensorValue*(5,0/1023);
-        // Serial.print("sensorValue - ");Serial.println(sensorValue);
-        // Serial.print("Spannung - ");Serial.println(spannung);
-    }
-};
+            // // Read a single pH level value
+            Serial.println("pH Level Single Reading: " + String(ph4502c.read_ph_level_single()));
+
+            delay(1000);
+
+            // int sensorValue = analogRead(A0);
+            // float spannung = sensorValue*(5,0/1023);
+            // Serial.print("sensorValue - ");Serial.println(sensorValue);
+            // Serial.print("Spannung - ");Serial.println(spannung);
+        }
+    };
 } // end of namespace Services

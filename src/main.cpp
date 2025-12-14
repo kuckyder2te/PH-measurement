@@ -62,9 +62,9 @@ void setup()
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW);
 
-  // Tasks.add<Services::pH_measurement>("ph.measurement")
-  //     ->init(DALLAS)
-  //     ->startFps(0.017); // 0,017 ~ 1 minute
+  Tasks.add<Services::pH_measurement>("ph.measurement")
+      ->init(PH4502C_PH_PIN)
+      ->startFps(0.017); // 0,017 ~ 1 minute
 
   msgBroker.printTopics();
   LOGGER_NOTICE("Finished building pH measurement. Will enter infinite loop");
