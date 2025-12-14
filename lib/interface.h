@@ -2,7 +2,7 @@
 /*
     File name. interface.h
     Date: 2024.10.06
-    Author: Stephan Scholz
+    Author: Wilhelm Kuckelsberg / Stephan Scholz
     Description: Pool Control
 */
 

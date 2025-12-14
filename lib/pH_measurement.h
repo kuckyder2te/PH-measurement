@@ -58,7 +58,7 @@ public:
         Serial.println("Temperature reading:" + String(ph4502c.read_temp()));   
 
         // // Read the pH level by average
-        Serial.println("pH Level Reading: " + String(ph4502c.read_ph_level())); //P0 ~ A0
+        Serial.println("pH Level Reading-new: " + String(ph4502c.read_ph_level())); //P0 ~ A0
 
         // // Read a single pH level value
         Serial.println("pH Level Single Reading: " + String(ph4502c.read_ph_level_single()));
