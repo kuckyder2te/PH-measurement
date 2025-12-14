@@ -38,6 +38,8 @@ namespace Services
     class pH_measurement : public Task::Base
     {
         char _msg[30];
+        int samples = 10;
+        float adc_resolution = 1024.0;
 
     public:
         pH_measurement(const String &name)
@@ -56,6 +58,26 @@ namespace Services
             ph4502c.init();
             LOGGER_VERBOSE("leave ...");
             return this;
+        }
+
+        float ph(float voltage)
+        {
+            return 7 + ((2.5 - voltage) / 0.18);  // Why 0.18
+        }
+
+        virtual void calibration()
+        {
+            int measurings = 0;
+
+            for (int i = 0; i < samples; i++)
+            {
+                measurings += analogRead(PH4502C_PH_PIN);
+                delay(10);
+            }
+
+            float voltage = 5 / adc_resolution * measurings / samples;
+            Serial.print("pH= ");
+            Serial.println(ph(voltage));
         }
 
         virtual void update() override
