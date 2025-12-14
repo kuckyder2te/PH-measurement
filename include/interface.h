@@ -8,7 +8,7 @@
 
 #include <Arduino.h>
 #include <PubSubClient.h>
-#include "..\lib\def.h"
+#include "def.h"
 
 namespace interface
 {

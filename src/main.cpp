@@ -15,10 +15,10 @@ https://github.com/Edistechlab/DIY-Heimautomation-Buch/tree/master/Sensoren/Rege
 #include <PubSubClient.h>
 #include <Wire.h>
 #include <ArduinoJson.h>
-#include "..\lib\interface.h"
-#include "..\lib\pH_measurement.h"
-#include "..\lib\secrets.h"
-#include "..\lib\def.h"
+#include "..\include\interface.h"
+#include "..\include\pH_measurement.h"
+#include "secrets.h"
+#include "def.h"
 
 const char *ssid = SID;
 const char *password = PW;

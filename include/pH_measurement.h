@@ -15,7 +15,7 @@
 #include <Arduino.h>
 #include <TaskManager.h>
 #include <ph4502c_sensor.h>
-#include "..\lib\def.h"
+#include "def.h"
 
 /* Pinout: https://cdn.awsli.com.br/969/969921/arq uivos/ph-sensor-ph-4502c.pdf */
 #define PH4502C_TEMPERATURE_PIN 4
