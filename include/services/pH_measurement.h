@@ -9,13 +9,22 @@
 */
 
 #pragma once
-#ifndef MEASUREMENT_H
-#define MEASUREMENT_H
-
+/// @cond
 #include <Arduino.h>
+#define LOCAL_DEBUG
+#include "myLogger.h"
+/// @endcond
+
 #include <TaskManager.h>
+#include "../network.h"
+#include <Wire.h>
 #include <ph4502c_sensor.h>
-#include "def.h"
+// #include "def.h"
+
+extern Network *_network;
+
+namespace Services
+{
 
 /* Pinout: https://cdn.awsli.com.br/969/969921/arq uivos/ph-sensor-ph-4502c.pdf */
 #define PH4502C_TEMPERATURE_PIN 4
@@ -71,4 +80,4 @@ public:
         // Serial.print("Spannung - ");Serial.println(spannung);
     }
 };
-#endif // MEASUREMENT_H
+} // end of namespace Services
