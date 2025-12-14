@@ -42,3 +42,9 @@ Stabilization: Always wait for readings to stabilize in buffers.
 Rinsing: Thorough rinsing with distilled water between buffers is crucial.
 Potentiometer: The offset pot sets pH 7 to mid-range (2.5V for 0-5V input); the other pot might adjust the slope if your board has one.
 Arduino Code: Libraries like ph4502c_sensor.h simplify calibration, but manual adjustments in code are common for accuracy. 
+
+```cpp
+float ph (float voltage) {
+    return 7 + ((2.5 - voltage) / 0.18);
+}
+```
