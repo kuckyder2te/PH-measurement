@@ -2,13 +2,17 @@
 
 ## Links
 
-OTA: https://randomnerdtutorials.com/esp8266-nodemcu-ota-over-the-air-vs-code/
-
 Important: https://docs.elegantota.pro/getting-started/async-mode
 
 Anleitung: https://github.com/nthnn/PH4502C-Sensor
 
-https://www.google.com/search?q=ph+4502c+sensor+calibration&sca_esv=6345a290e4fcd0a9&sxsrf=AE3TifOizjbvMwXpVi3WNkXea24Qp_ZS7A%3A1765713596479&ei=vKY-aZmDHZ-wi-gP36aLiA4&oq=4502c+ph+sensor+ca&gs_lp=Egxnd3Mtd2l6LXNlcnAiEjQ1MDJjIHBoIHNlbnNvciBjYSoCCAAyBhAAGBYYHjIIEAAYCBgNGB4yBRAAGO8FMgUQABjvBTIFEAAY7wUyBRAAGO8FSNckUJgIWO8UcAF4AZABAJgBTKAB3gGqAQEzuAEByAEA-AEBmAIEoALoAcICChAAGLADGNYEGEfCAggQABgWGAoYHpgDAIgGAZAGCJIHATSgB6gOsgcBM7gH5QHCBwMwLjTIBwaACAA&sclient=gws-wiz-serp#fpstate=ive&vld=cid:4f1b5d03,vid:1ZeW8GIIT6Y,st:150
+Video: https://www.google.com/search?q=ph+4502c+sensor+calibration&sca_esv=6345a290e4fcd0a9&sxsrf=AE3TifOizjbvMwXpVi3WNkXea24Qp_ZS7A%3A1765713596479&ei=vKY-aZmDHZ-wi-gP36aLiA4&oq=4502c+ph+sensor+ca&gs_lp=Egxnd3Mtd2l6LXNlcnAiEjQ1MDJjIHBoIHNlbnNvciBjYSoCCAAyBhAAGBYYHjIIEAAYCBgNGB4yBRAAGO8FMgUQABjvBTIFEAAY7wUyBRAAGO8FSNckUJgIWO8UcAF4AZABAJgBTKAB3gGqAQEzuAEByAEA-AEBmAIEoALoAcICChAAGLADGNYEGEfCAggQABgWGAoYHpgDAIgGAZAGCJIHATSgB6gOsgcBM7gH5QHCBwMwLjTIBwaACAA&sclient=gws-wiz-serp#fpstate=ive&vld=cid:4f1b5d03,vid:1ZeW8GIIT6Y,st:150
+
+
+
+## Hardware
+![PH_sensor](/doc/4502c_picture1.png)
+![PH_sensor_wiring](/doc/4502c_picture2.png)
 
 
 ## Step 1: Hardware Offset Calibration (Setting pH 7 = 2.5V)
