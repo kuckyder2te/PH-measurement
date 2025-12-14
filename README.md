@@ -14,6 +14,14 @@ Video: https://www.google.com/search?q=ph+4502c+sensor+calibration&sca_esv=6345a
 ![PH_sensor](/doc/4502c_picture1.png)
 ![PH_sensor_wiring](/doc/4502c_picture2.png)
 
+- Level signal out ( D0 ) 3.3V pH limit trigger
+- PH value output ( P0 ) PH analog output
+- Signal ground ( GND ) Gnd for PH probe
+- Power negative ( GND ) Gnd for board
+- Power positive ( VCC ) 5V DC
+- Refernce adjustment potentiometer (POT1) Analog reading offset (Nearest to BNC connector)
+- Threshold adjustment potentiometer (POT2) PH limit setting
+
 
 ## Step 1: Hardware Offset Calibration (Setting pH 7 = 2.5V)
 - Disconnect Probe: Remove the pH electrode from the BNC connector.
